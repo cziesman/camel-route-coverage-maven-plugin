@@ -4,7 +4,7 @@ This plugin provides the ability to generate Camel route coverage reports as HTM
 
 ## Usage
 
-To use this plugin, simply add the following to your `pom.xml`.
+To use this plugin, simply add the following to the `pom.xml` file in your Camel project.
 
     <plugin>
         <groupId>com.redhat</groupId>
@@ -13,3 +13,5 @@ To use this plugin, simply add the following to your `pom.xml`.
     </plugin>
 
 The plugin will execute automatically as part of the `test` phase.
+
+The report files will be generated in the folder `target/route-coverage-report`.
