@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<span th:replace="fragments-static :: common-head-datatables(title=${project} + ' Route Coverage')"></span>
+
+<body>
+
+<div class="card">
+    <div class="card-body">
+        <h1 th:text="${project} + ' Route Coverage'">Camel Route Coverage</h1>
+        <table class="table table-striped table-bordered " id="routes" width="100%">
+            <thead>
+            <tr>
+                <td>Route</td>
+                <td class="text-right">Total EIPs</td>
+                <td class="text-right">Tested</td>
+                <td class="text-right">Coverage %</td>
+                <td class="text-right">Time (ms)</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="route : ${routes}">
+                <td><a th:href="${route.id} + '.html'" th:target="_blank"><span th:text="${route.id}" }></span></a></td>
+                <td class="text-right" th:text="${route.totalEips}"></td>
+                <td class="text-right" th:text="${route.totalEipsTested}"></td>
+                <td class="text-right" th:text="${route.coverage}"></td>
+                <td class="text-right" th:text="${route.totalProcessingTime}"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>Totals</td>
+                <td class="text-right" th:text="${totals.totalEips}"></td>
+                <td class="text-right" th:text="${totals.totalEipsTested}"></td>
+                <td class="text-right" th:text="${totals.coverage}"></td>
+                <td class="text-right" th:text="${totals.totalProcessingTime}"></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<span th:replace="fragments-static :: common-js-datatables"></span>
+<script type="text/javascript">
+            $(document).ready(function() {
+                $('#routes').DataTable( {
+                    stateSave: true,
+                    order: [ [ 0, 'asc' ] ],
+                    pageLength: 25
+                } );
+            });
+</script>
+</body>
+
+</html>

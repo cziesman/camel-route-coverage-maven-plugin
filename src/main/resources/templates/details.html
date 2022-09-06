@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<span th:replace="fragments-static :: common-head-datatables(title=${route.id})"></span>
+
+<body>
+
+<div class="card">
+    <div class="card-body">
+        <h1 th:text="${route.id}">Route</h1>
+        <table class="table table-striped table-bordered " id="eips" width="100%">
+            <thead>
+            <tr>
+                <td class="text-right">Index</td>
+                <td>EIP</td>
+                <td class="text-center">Tested</td>
+                <td class="text-right">Time (ms)</td>
+                <td>Properties</td>
+            </tr>
+            </thead>
+            <tbody>
+            <span th:each="entry : ${eips}">
+                    <tr th:each="eip : ${entry.value}">
+                        <td class="text-right" th:text="${entry.key}"></td>
+                        <td th:text="${eip.id}"></td>
+                        <td class="text-center"><input th:checked="${eip.tested}" type="checkbox"/></td>
+                        <td class="text-right" th:text="${eip.totalProcessingTime}"></td>
+                        <td th:text="${eip.properties}"></td>
+                    </tr>
+                </span>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<span th:replace="fragments-static :: common-js-datatables"></span>
+<script type="text/javascript">
+            $(document).ready(function() {
+                $('#eips').DataTable( {
+                    stateSave: true,
+                    order: [ [ 0, 'asc' ] ],
+                    pageLength: 10
+                } );
+            });
+</script>
+</body>
+
+</html>
