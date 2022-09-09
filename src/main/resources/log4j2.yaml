@@ -6,7 +6,7 @@ Configuration:
       name: Console_Appender
       target: SYSTEM_OUT
       PatternLayout:
-        pattern: "[%highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red blink, ERROR=red, WARN=yellow, INFO=green, DEBUG=magenta, TRACE=blue}] %clr{%d{yyyy-MM-dd HH:mm:ss.SSS} [%t]}{faint} %style{%logger{10}:%L}{cyan} - %msg%n"
+        pattern: "[%highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red blink, ERROR=red, WARN=yellow, INFO=green, DEBUG=magenta, TRACE=blue}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %style{%logger{10}:%L}{cyan} - %msg%n"
 
   Loggers:
       Root:
@@ -17,7 +17,6 @@ Configuration:
       Logger:
         - name: com.redhat
           additivity: false
-          level: debug
+          level: trace
           AppenderRef:
             - ref: Console_Appender
-              level: debug

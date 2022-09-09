@@ -66,7 +66,7 @@ public class ExcelWriter {
         workbook.write(outputStream);
     }
 
-    private void writeIndex() {
+    protected void writeIndex() {
 
         String safeName = WorkbookUtil.createSafeSheetName("index");
         XSSFSheet sheet = workbook.createSheet(safeName);
@@ -75,7 +75,7 @@ public class ExcelWriter {
         writeIndexData(sheet);
     }
 
-    private void writeIndexHeader(XSSFSheet sheet) {
+    protected void writeIndexHeader(XSSFSheet sheet) {
 
         Row row = sheet.createRow(0);
         int colIndex = 0;
@@ -87,7 +87,7 @@ public class ExcelWriter {
         createCell(sheet, row, colIndex, "Time (ms)", boldStyle);
     }
 
-    private void writeIndexData(XSSFSheet sheet) {
+    protected void writeIndexData(XSSFSheet sheet) {
 
         int rowIndex = 1;
 
@@ -103,7 +103,7 @@ public class ExcelWriter {
         }
     }
 
-    private void writeDetail(RouteStatistic routeStatistic) {
+    protected void writeDetail(RouteStatistic routeStatistic) {
 
         // sheet names cannot exceed 31 characters, but many routes have similar names
         // try to create a unique sheet name for the route if a duplicate is detected
@@ -121,7 +121,7 @@ public class ExcelWriter {
         writeDetailData(sheet, routeStatistic);
     }
 
-    private void writeDetailHeader(XSSFSheet sheet, RouteStatistic routeStatistic) {
+    protected void writeDetailHeader(XSSFSheet sheet, RouteStatistic routeStatistic) {
 
         Row row = sheet.createRow(0);
         createCell(sheet, row, 4, routeStatistic.getId(), boldStyle);
@@ -136,7 +136,7 @@ public class ExcelWriter {
         createCell(sheet, row, colIndex, "Properties", boldStyle);
     }
 
-    private void writeDetailData(XSSFSheet sheet, RouteStatistic routeStatistic) {
+    protected void writeDetailData(XSSFSheet sheet, RouteStatistic routeStatistic) {
 
         Set<Map.Entry<Integer, List<EipStatistic>>> eips = routeStatistic.getEipStatisticMap().entrySet();
 
@@ -172,7 +172,7 @@ public class ExcelWriter {
         }
     }
 
-    private void writeDetailRow(XSSFSheet sheet, int rowNumber, Integer key, EipStatistic eip) {
+    protected void writeDetailRow(XSSFSheet sheet, int rowNumber, Integer key, EipStatistic eip) {
 
         int colIndex = 0;
         Row row = sheet.createRow(rowNumber);
@@ -185,7 +185,7 @@ public class ExcelWriter {
 
     }
 
-    private void createCell(XSSFSheet sheet, Row row, int columnCount, Object value, CellStyle style) {
+    protected void createCell(XSSFSheet sheet, Row row, int columnCount, Object value, CellStyle style) {
 
         sheet.autoSizeColumn(columnCount);
 

@@ -9,7 +9,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import java.util.Map;
 
 @Slf4j
-public class TemplateUtil {
+public class TemplateRenderer {
 
     public static String render(String templateName, Map<String, Object> data) {
 

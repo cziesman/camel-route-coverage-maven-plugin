@@ -17,19 +17,19 @@ public class FileUtil {
 
     private static final String OUTPUT_FILE = "%s.html";
 
-    public static String getLastElementOfPath(String path) {
+    public String getLastElementOfPath(String path) {
 
         return Paths.get(path).getFileName().toString();
     }
 
-    public static String readFile(final String inputFile) throws IOException {
+    public String readFile(final String inputFile) throws IOException {
 
         Path inputFilePath = Paths.get(inputFile);
 
         return new String(Files.readAllBytes(Paths.get(inputFilePath.toString())), StandardCharsets.UTF_8);
     }
 
-    public static String write(final String rendered, final String inputFileName, final String outputPath) throws IOException {
+    public String write(final String rendered, final String inputFileName, final String outputPath) throws IOException {
 
         Path writeOutputPath = outputFile(inputFileName, outputPath);
 
@@ -40,7 +40,7 @@ public class FileUtil {
         return writeOutputPath.toString();
     }
 
-    public static Path outputFile(final String inputFileName, final String outputPath) {
+    public Path outputFile(final String inputFileName, final String outputPath) {
 
         Path outputFileName = Paths.get(String.format(OUTPUT_FILE, removeFileExtension(inputFileName)));
         LOG.trace(outputFileName.toString());
@@ -50,7 +50,7 @@ public class FileUtil {
         return writeOutputPath;
     }
 
-    public static String removeFileExtension(String filename) {
+    public String removeFileExtension(String filename) {
 
         if (filename == null || filename.isEmpty()) {
             return filename;
@@ -61,7 +61,7 @@ public class FileUtil {
         return filename.replaceAll(extPattern, "");
     }
 
-    public static Set<String> filesInDirectory(String dir) throws IOException {
+    public Set<String> filesInDirectory(String dir) throws IOException {
 
         Set<String> fileList = new HashSet<>();
         Path dirPath = Paths.get(dir);

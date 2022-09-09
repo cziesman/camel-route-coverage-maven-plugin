@@ -20,8 +20,18 @@ import java.nio.file.Paths;
 @Slf4j
 public class CamelRouteCoverageMojo extends AbstractMojo {
 
+    private static final String TARGET = "target";
+
+    private static final String ROUTE_COVERAGE_REPORT = "route-coverage-report";
+
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
+
+    /**
+     * Specifies a custom output directory. Default output directory is <code>target/route-coverage-report</code>
+     */
+    @Parameter(required = false, readonly = false)
+    private String outputPath;
 
     @Override
     public void execute() {
@@ -29,7 +39,10 @@ public class CamelRouteCoverageMojo extends AbstractMojo {
         CoverageResultsProcessor processor = new CoverageResultsProcessor();
 
         try {
-            processor.generateReport(projectPath());
+            if (outputPath == null) {
+                outputPath = Paths.get(projectPath(), TARGET, ROUTE_COVERAGE_REPORT).toString();
+            }
+            processor.generateReport(projectPath(), outputPath);
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
         }

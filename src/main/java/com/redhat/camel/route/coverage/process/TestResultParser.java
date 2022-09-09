@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class TestResultService {
+public class TestResultParser {
 
     private static final String FORMAT = "rte=%s, tot-ex=%d, test=%s";
 
     private final ObjectMapper objectMapper = new ObjectMapper().enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-    public TestResult getResultsForTest(TestResult testResult) {
+    public TestResult parse(TestResult testResult) {
 
         CamelContextRouteCoverage camelContextRouteCoverage = testResult.getCamelContextRouteCoverage();
 
@@ -30,15 +30,7 @@ public class TestResultService {
 
         routeList.forEach(route -> {
 
-            Map<String, Object> componentsMap = route.getComponentsMap();
-
-            try {
-                String asString = objectMapper.writeValueAsString(componentsMap);
-                Components components = objectMapper.readValue(asString, Components.class);
-                route.setComponents(components);
-            } catch (JsonProcessingException e) {
-                LOG.error(e.getMessage(), e);
-            }
+            route.setComponents(components(route));
         });
 
         LOG.debug(String.format(FORMAT, camelContextRouteCoverage.getId(), camelContextRouteCoverage.getExchangesTotal(), testResult.getTest().getClazz()));
@@ -49,5 +41,28 @@ public class TestResultService {
         });
 
         return testResult;
+    }
+
+    protected Components components(Route route) {
+
+        Components components = null;
+
+        try {
+            Map<String, Object> componentsMap = route.getComponentsMap();
+            String asString = objectMapper().writeValueAsString(componentsMap);
+            components = objectMapper().readValue(asString, Components.class);
+        } catch (JsonProcessingException e) {
+            LOG.error(e.getMessage(), e);
+        }
+
+        return components;
+    }
+
+    /*
+     * Provides a convenience method to facilitate unit testing.
+     */
+    protected ObjectMapper objectMapper() {
+
+        return objectMapper;
     }
 }

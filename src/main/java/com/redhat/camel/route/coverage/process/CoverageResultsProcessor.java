@@ -3,15 +3,13 @@ package com.redhat.camel.route.coverage.process;
 import com.redhat.camel.route.coverage.map.LinkedMultiValueMap;
 import com.redhat.camel.route.coverage.map.MultiValueMap;
 import com.redhat.camel.route.coverage.model.Components;
+import com.redhat.camel.route.coverage.model.EipAttribute;
 import com.redhat.camel.route.coverage.model.EipStatistic;
 import com.redhat.camel.route.coverage.model.Route;
 import com.redhat.camel.route.coverage.model.RouteStatistic;
 import com.redhat.camel.route.coverage.model.RouteTotalsStatistic;
 import com.redhat.camel.route.coverage.model.TestResult;
-import com.redhat.camel.route.coverage.model.EipAttribute;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,8 +36,6 @@ public class CoverageResultsProcessor {
 
     private static final String CAMEL_ROUTE_COVERAGE = "camel-route-coverage";
 
-    private static final String ROUTE_COVERAGE_REPORT = "route-coverage-report";
-
     private static final String FROM = "from";
 
     private static final String URI = "uri";
@@ -52,15 +48,16 @@ public class CoverageResultsProcessor {
 
     private final RouteTotalsStatistic routeTotalsStatistic = new RouteTotalsStatistic();
 
-    private final XmlToCamelRouteCoverageConverter converter = new XmlToCamelRouteCoverageConverter();
+    private FileUtil fileUtil = new FileUtil();
 
-    private final TestResultService testResultService = new TestResultService();
+    private TestResultParser testResultParser = new TestResultParser();
 
-    public Integer generateReport(final String projectPath) throws IOException {
+    private XmlToCamelRouteCoverageConverter xmlToCamelRouteCoverageConverter = new XmlToCamelRouteCoverageConverter();
 
-        String project = FileUtil.getLastElementOfPath(projectPath);
+    public Integer generateReport(final String projectPath, final String outputPath) throws IOException {
+
+        String project = fileUtil.getLastElementOfPath(projectPath);
         String inputPath = Paths.get(projectPath, TARGET, CAMEL_ROUTE_COVERAGE).toString();
-        String outputPath = Paths.get(projectPath, TARGET, ROUTE_COVERAGE_REPORT).toString();
 
         Path outputPathAsPath = Paths.get(outputPath);
         if (!Files.exists(outputPathAsPath)) {
@@ -93,7 +90,7 @@ public class CoverageResultsProcessor {
 
     protected void parseAllTestResults(final String inputPath) throws IOException {
 
-        Set<String> testInputs = FileUtil.filesInDirectory(inputPath);
+        Set<String> testInputs = fileUtil.filesInDirectory(inputPath);
 
         for (String inputFile : testInputs) {
             TestResult testResult = parseTestResult(inputFile);
@@ -103,13 +100,13 @@ public class CoverageResultsProcessor {
 
     protected TestResult parseTestResult(final String inputFile) throws IOException {
 
-        String fileAsString = FileUtil.readFile(inputFile);
+        String fileAsString = fileUtil.readFile(inputFile);
 
-        TestResult testResult = converter.convert(fileAsString);
+        TestResult testResult = xmlToCamelRouteCoverageConverter.convert(fileAsString);
 
         assert testResult != null;
 
-        return testResultService.getResultsForTest(testResult);
+        return testResultParser.parse(testResult);
     }
 
     protected void generateEipStatistics() {
@@ -190,7 +187,7 @@ public class CoverageResultsProcessor {
                 } catch (Throwable t) {
                     LOG.info(t.getClass().toString());
                     LOG.info(String.format("routeID: %s", routeId));
-                    LOG.info(String.format("route: %s", route != null ? route.toString() : "null"));
+                    LOG.info(String.format("route: %s", route));
                     LOG.info(String.format("mappedRoute: %s", mappedRoute != null ? mappedRoute.toString() : "null"));
                 }
             });
@@ -224,7 +221,7 @@ public class CoverageResultsProcessor {
             String routeId = route.getId();
             RouteStatistic routeStatistic = getRouteStatistic(routeId);
 
-            routeStatistic = update(route, routeStatistic);
+            routeStatistic = recalculate(route, routeStatistic);
 
             routeStatisticMap.put(routeId, routeStatistic);
 
@@ -254,7 +251,7 @@ public class CoverageResultsProcessor {
         return routeStatistic;
     }
 
-    protected RouteStatistic update(final Route route, final RouteStatistic routeStatistic) {
+    protected RouteStatistic recalculate(final Route route, final RouteStatistic routeStatistic) {
 
         AtomicInteger totalEips = new AtomicInteger(routeStatistic.getTotalEips());
         AtomicInteger totalEipsTested = new AtomicInteger(routeStatistic.getTotalEipsTested());
@@ -296,8 +293,8 @@ public class CoverageResultsProcessor {
         data.put("route", routeStatistic);
         data.put("eips", routeStatistic.getEipStatisticMap().entrySet());
 
-        String rendered = TemplateUtil.render(DETAILS_FILE, data);
-        FileUtil.write(rendered, routeStatistic.getId(), outputPath);
+        String rendered = TemplateRenderer.render(DETAILS_FILE, data);
+        fileUtil.write(rendered, routeStatistic.getId(), outputPath);
     }
 
     protected String writeReportIndex(final String project, final String outputPath) throws IOException {
@@ -307,8 +304,8 @@ public class CoverageResultsProcessor {
         data.put("routes", routeStatisticMap.values());
         data.put("totals", routeTotalsStatistic);
 
-        String rendered = TemplateUtil.render(INDEX_FILE, data);
+        String rendered = TemplateRenderer.render(INDEX_FILE, data);
 
-        return FileUtil.write(rendered, "index", outputPath);
+        return fileUtil.write(rendered, "index", outputPath);
     }
 }
