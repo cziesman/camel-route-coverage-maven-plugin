@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.cziesman</groupId>
@@ -24,16 +25,33 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>cziesman</id>
+            <name>Craig Ziesman</name>
+            <email>craig.ziesman@gmail.com</email>
+            <organization>Red Hat Inc.</organization>
+            <organizationUrl>https://www.redhat.com</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <issueManagement>
         <system>Github</system>
         <url>https://github.com/cziesman/camel-route-coverage-maven-plugin/issues</url>
     </issueManagement>
 
     <scm>
+        <connection>
+            scm:git:git@github.com:cziesman/camel-route-coverage-maven-plugin.git
+        </connection>
         <developerConnection>
             scm:git:git@github.com:cziesman/camel-route-coverage-maven-plugin.git
         </developerConnection>
-      <tag>HEAD</tag>
+        <tag>HEAD</tag>
+        <url>https://github.com:cziesman/camel-route-coverage-maven-plugin</url>
     </scm>
 
     <distributionManagement>
