@@ -4,7 +4,7 @@
 
     <groupId>io.github.cziesman</groupId>
     <artifactId>camel-route-coverage-maven-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>camel-route-coverage-maven-plugin</name>
     <description>Provides a plugin to generate Camel route coverage reports as HTML and XLSX</description>
@@ -40,10 +40,12 @@
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+            <layout>default</layout>
         </snapshotRepository>
         <repository>
             <id>ossrh</id>
             <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <layout>default</layout>
         </repository>
     </distributionManagement>
 
