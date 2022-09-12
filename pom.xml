@@ -4,7 +4,7 @@
 
     <groupId>io.github.cziesman</groupId>
     <artifactId>camel-route-coverage-maven-plugin</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <name>camel-route-coverage-maven-plugin</name>
     <description>Provides a plugin to generate Camel route coverage reports as HTML and XLSX</description>
