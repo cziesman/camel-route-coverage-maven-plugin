@@ -31,6 +31,12 @@
         <url>https://github.com/cziesman/camel-route-coverage-maven-plugin/issues</url>
     </issueManagement>
 
+    <scm>
+        <developerConnection>
+            scm:git:git@github.com:cziesman/camel-route-coverage-maven-plugin.git
+        </developerConnection>
+    </scm>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
