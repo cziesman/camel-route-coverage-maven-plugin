@@ -15,7 +15,7 @@ The following example shows how to add the plugin to your Camel project.
         <pluginManagement>
           <plugins>
             <plugin>
-              <groupId>com.redhat</groupId>
+              <groupId>com.ziesman</groupId>
               <artifactId>camel-route-coverage-maven-plugin</artifactId>
               <version>1.0-SNAPSHOT</version>
             </plugin>
@@ -25,7 +25,7 @@ The following example shows how to add the plugin to your Camel project.
         <!-- To use the plugin goals in your POM or parent POM -->
         <plugins>
           <plugin>
-            <groupId>com.redhat</groupId>
+            <groupId>com.ziesman</groupId>
             <artifactId>camel-route-coverage-maven-plugin</artifactId>
             <version>1.0-SNAPSHOT</version>
           </plugin>
