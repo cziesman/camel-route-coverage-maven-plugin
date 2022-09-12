@@ -1,0 +1,17 @@
+<camelRouteCoverage>
+    <test>
+        <class>com.example.GreetingsFileRouteUnitTest</class>
+        <method>whenSendBody_thenGreetingReceivedSuccessfully</method>
+    </test>
+    <camelContextRouteCoverage id="DemoService" exchangesTotal="1" totalProcessingTime="10">
+        <routes xmlns="http://camel.apache.org/schema/spring">
+            <route customId="true" exchangesTotal="1" id="greetings-route" totalProcessingTime="10">
+                <from exchangesTotal="1" index="0" totalProcessingTime="10" uri="direct:greetings"/>
+                <setBody exchangesTotal="1" id="setBody2" index="24" totalProcessingTime="1">
+                    <constant>Hello from Cloud Cuckoo Camel Land!</constant>
+                </setBody>
+                <to exchangesTotal="1" id="to7" index="25" totalProcessingTime="5" uri="file:target/output"/>
+            </route>
+        </routes>
+    </camelContextRouteCoverage>
+</camelRouteCoverage>
