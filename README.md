@@ -35,10 +35,30 @@ The following example shows how to add the plugin to your Camel project.
       ...
     </project>
 
-The plugin will execute automatically as part of the `test` phase.
+The plugin will execute automatically as part of the `test` phase, if configured as follows:
+
+            <plugin>
+                <groupId>io.github.cziesman</groupId>
+                <artifactId>camel-route-coverage-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 The plugin can be run manually using the following command:
 
     mvn camel-route-coverage:report
 
 The report files will be generated in the folder `target/route-coverage-report`.
+
+If a different output folder is preferred, add the following to the plugin definition:
+
+                <configuration>
+                    <outputPath>/tmp/route-coverage-report</outputPath>
+                </configuration>
