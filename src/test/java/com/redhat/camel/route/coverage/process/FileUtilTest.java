@@ -1,8 +1,9 @@
 package com.redhat.camel.route.coverage.process;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +16,9 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@Slf4j
 public class FileUtilTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(FileUtilTest.class);
 
     private static final String BARFOO = "barfoo";
 
@@ -24,7 +26,7 @@ public class FileUtilTest {
 
     private static final String FOOBAR_HTML = "foobar.html";
 
-    private FileUtil fileUtil = new FileUtil();
+    private final FileUtil fileUtil = new FileUtil();
 
     @TempDir
     private File temporaryDirectory;

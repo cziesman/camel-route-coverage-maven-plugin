@@ -9,7 +9,8 @@ import com.redhat.camel.route.coverage.model.Route;
 import com.redhat.camel.route.coverage.model.RouteStatistic;
 import com.redhat.camel.route.coverage.model.RouteTotalsStatistic;
 import com.redhat.camel.route.coverage.model.TestResult;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,8 +24,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Slf4j
 public class CoverageResultsProcessor {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CoverageResultsProcessor.class);
 
     private static final String DETAILS_FILE = "/details.html";
 
@@ -48,11 +50,11 @@ public class CoverageResultsProcessor {
 
     private final RouteTotalsStatistic routeTotalsStatistic = new RouteTotalsStatistic();
 
-    private FileUtil fileUtil = new FileUtil();
+    private final FileUtil fileUtil = new FileUtil();
 
-    private TestResultParser testResultParser = new TestResultParser();
+    private final TestResultParser testResultParser = new TestResultParser();
 
-    private XmlToCamelRouteCoverageConverter xmlToCamelRouteCoverageConverter = new XmlToCamelRouteCoverageConverter();
+    private final XmlToCamelRouteCoverageConverter xmlToCamelRouteCoverageConverter = new XmlToCamelRouteCoverageConverter();
 
     public Integer generateReport(final String projectPath, final String outputPath) throws IOException {
 
@@ -128,13 +130,11 @@ public class CoverageResultsProcessor {
 
                     eipAttributes.forEach(eipAttribute -> {
 
-                        EipStatistic eipStatistic =
-                                EipStatistic.builder()
-                                        .id(key)
-                                        .tested(eipAttribute.getExchangesTotal() > 0)
-                                        .totalProcessingTime(eipAttribute.getTotalProcessingTime())
-                                        .properties(eipAttribute.getProperties())
-                                        .build();
+                        EipStatistic eipStatistic = new EipStatistic();
+                        eipStatistic.setId(key);
+                        eipStatistic.setTested(eipAttribute.getExchangesTotal() > 0);
+                        eipStatistic.setTotalProcessingTime(eipAttribute.getTotalProcessingTime());
+                        eipStatistic.setProperties(eipAttribute.getProperties());
                         eipStatisticMap.add(eipAttribute.getIndex(), eipStatistic);
                     });
                 }
@@ -242,7 +242,8 @@ public class CoverageResultsProcessor {
 
         RouteStatistic routeStatistic;
         if (!routeStatisticMap.containsKey(routeId)) {
-            routeStatistic = RouteStatistic.builder().id(routeId).build();
+            routeStatistic = new RouteStatistic();
+            routeStatistic.setId(routeId);
             routeStatisticMap.put(routeId, routeStatistic);
         } else {
             routeStatistic = routeStatisticMap.get(routeId);
@@ -277,14 +278,16 @@ public class CoverageResultsProcessor {
             coverage = (100 * totalEipsTested.get()) / totalEips.get();
         }
 
-        return RouteStatistic.builder()
-                .id(route.getId())
-                .totalEips(totalEips.get())
-                .totalEipsTested(totalEipsTested.get())
-                .totalProcessingTime(totalProcessingTime.get())
-                .coverage(coverage)
-                .totalEipsInitialized(true)
-                .build();
+        RouteStatistic retval = new RouteStatistic();
+
+        retval.setId(route.getId());
+        retval.setTotalEips(totalEips.get());
+        retval.setTotalEipsTested(totalEipsTested.get());
+        retval.setTotalProcessingTime(totalProcessingTime.get());
+        retval.setCoverage(coverage);
+        retval.setTotalEipsInitialized(true);
+
+        return retval;
     }
 
     protected void writeDetailsAsHtml(final RouteStatistic routeStatistic, final String outputPath) throws IOException {

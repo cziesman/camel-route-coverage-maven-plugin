@@ -6,15 +6,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redhat.camel.route.coverage.model.CamelContextRouteCoverage;
 import com.redhat.camel.route.coverage.model.Components;
 import com.redhat.camel.route.coverage.model.Route;
-import com.redhat.camel.route.coverage.model.TestResult;
 import com.redhat.camel.route.coverage.model.Routes;
-import lombok.extern.slf4j.Slf4j;
+import com.redhat.camel.route.coverage.model.TestResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 public class TestResultParser {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TestResultParser.class);
 
     private static final String FORMAT = "rte=%s, tot-ex=%d, test=%s";
 

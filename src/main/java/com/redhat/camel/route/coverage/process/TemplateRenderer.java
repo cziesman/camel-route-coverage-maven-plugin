@@ -1,6 +1,5 @@
 package com.redhat.camel.route.coverage.process;
 
-import lombok.extern.slf4j.Slf4j;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -8,7 +7,6 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import java.util.Map;
 
-@Slf4j
 public class TemplateRenderer {
 
     public static String render(String templateName, Map<String, Object> data) {

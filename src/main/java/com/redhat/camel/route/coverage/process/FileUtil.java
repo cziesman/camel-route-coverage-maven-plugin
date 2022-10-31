@@ -1,6 +1,7 @@
 package com.redhat.camel.route.coverage.process;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -12,8 +13,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@Slf4j
 public class FileUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger(FileUtil.class);
 
     private static final String OUTPUT_FILE = "%s.html";
 
