@@ -2,7 +2,6 @@ package com.redhat.camel.route.coverage.process;
 
 import com.redhat.camel.route.coverage.model.EipStatistic;
 import com.redhat.camel.route.coverage.model.RouteStatistic;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -12,6 +11,8 @@ import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,8 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Slf4j
 public class ExcelWriter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ExcelWriter.class);
 
     private final Collection<RouteStatistic> routeStatistics;
 
@@ -166,7 +168,7 @@ public class ExcelWriter {
                             break;
                         }
                     }
-                    writeDetailRow(sheet, rowNumber , index, eip);
+                    writeDetailRow(sheet, rowNumber, index, eip);
                 }
             }
         }
@@ -182,7 +184,6 @@ public class ExcelWriter {
         createCell(sheet, row, colIndex++, eip.isTested(), plainStyle);
         createCell(sheet, row, colIndex++, eip.getTotalProcessingTime(), plainStyle);
         createCell(sheet, row, colIndex, eip.getProperties(), plainStyle);
-
     }
 
     protected void createCell(XSSFSheet sheet, Row row, int columnCount, Object value, CellStyle style) {

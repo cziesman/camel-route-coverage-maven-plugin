@@ -1,14 +1,16 @@
 package com.redhat.camel.route.coverage.process;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Slf4j
 public class TemplateRendererTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TemplateRendererTest.class);
 
     private static final String EXPECTED =
             "<!DOCTYPE html>\n" +

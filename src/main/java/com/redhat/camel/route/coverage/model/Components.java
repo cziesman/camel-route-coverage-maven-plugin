@@ -5,16 +5,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Data
-@Slf4j
 public class Components {
 
     private Map<String, List<EipAttribute>> attributeMap = new HashMap<>();
@@ -39,5 +35,23 @@ public class Components {
         }
 
         attributeMap.put(key, listValue);
+    }
+
+    public Map<String, List<EipAttribute>> getAttributeMap() {
+
+        return attributeMap;
+    }
+
+    public void setAttributeMap(Map<String, List<EipAttribute>> attributeMap) {
+
+        this.attributeMap = attributeMap;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Components{" +
+                "attributeMap=" + attributeMap +
+                '}';
     }
 }

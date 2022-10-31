@@ -1,13 +1,29 @@
 package com.redhat.camel.route.coverage.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
 public class Routes {
 
     @JsonProperty("route")
     private List<Route> routeList;
+
+    public List<Route> getRouteList() {
+
+        return routeList;
+    }
+
+    public void setRouteList(List<Route> routeList) {
+
+        this.routeList = routeList;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Routes{" +
+                "routeList=" + routeList +
+                '}';
+    }
 }

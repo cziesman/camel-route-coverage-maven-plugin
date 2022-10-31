@@ -1,16 +1,18 @@
 package com.redhat.camel.route.coverage.process;
 
 import com.redhat.camel.route.coverage.model.TestResult;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.spy;
 
-@Slf4j
 public class TestResultParserTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TestResultParserTest.class);
 
     @Test
     public void testTestResultParser() {

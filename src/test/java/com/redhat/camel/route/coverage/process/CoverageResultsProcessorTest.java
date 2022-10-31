@@ -3,7 +3,6 @@ package com.redhat.camel.route.coverage.process;
 import com.redhat.camel.route.coverage.model.Route;
 import com.redhat.camel.route.coverage.model.RouteStatistic;
 import com.redhat.camel.route.coverage.model.TestResult;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,8 @@ import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +26,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 
-@Slf4j
 @ExtendWith(MockitoExtension.class)
 public class CoverageResultsProcessorTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CoverageResultsProcessorTest.class);
 
     private static final String TARGET = "target";
 
